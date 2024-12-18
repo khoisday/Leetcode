@@ -1,44 +1,46 @@
+\\\
+Idea: Reverse the 2nd half of the linked list and compare it with the first half.
+
+Time complexity: O(n)
+
+Space Complexity: O(n)
+\\\
+
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-class Solution(object):
-    def reverse(self, head):
-        newHead = None
-        while head:
-            next = head.next
-            head.next = newHead
-            newHead = head
-            head = next
+class Solution:
+    def reverse(self, curr):
+        prev = None
+        while curr:
+            next = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next
 
-        return newHead
-
+        return prev
+    
     def findMid(self, head):
-        slow = fast = head
+        slow, fast = head, head
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
         
         return slow
-        
+    
     def isPalindrome(self, head):
         if not head or not head.next:
             return True
-            
-        # Find middle
+        
         mid = self.findMid(head)
+        secondHalf = self.reverse(mid)
         
-        # Reverse second half
-        second_half = self.reverse(mid)
-        
-        # Compare first half with reversed second half
-        first_half = head
-        while second_half:
-            if first_half.val != second_half.val:
+        while secondHalf:
+            if head.val != secondHalf.val:
                 return False
-            first_half = first_half.next
-            second_half = second_half.next
-            
+            head = head.next
+            secondHalf = secondHalf.next
+
         return True
-        
